@@ -1,0 +1,54 @@
+import java.util.Scanner
+
+fun main() {
+    val scanner = Scanner(System.`in`)
+    while (true) {
+        val num1 = getNumber(scanner, "Enter the first number: ")
+        val operation = getOperation(scanner, "Enter the operation (+, -, *, /): ")
+        val num2 = getNumber(scanner, "Enter the second number: ")
+
+        val result = performOperation(num1, num2, operation)
+        if (result != null) {
+            println("Result: $num1 $operation $num2 = $result")
+        }
+
+        if (!continueCalculation(scanner)) {
+            break
+        }
+    }
+}
+
+fun getNumber(scanner: Scanner, prompt: String): Double {
+    print(prompt)
+    return scanner.nextDouble()
+}
+
+fun getOperation(scanner: Scanner, prompt: String): Char {
+    print(prompt)
+    val operation = scanner.next().single()
+    if (!isValidOperation(operation)) {
+        println("Invalid operation!")
+        return getOperation(scanner, prompt)
+    }
+    return operation
+}
+
+fun isValidOperation(operation: Char): Boolean {
+    return operation == '+' || operation == '-' || operation == '*' || operation == '/'
+}
+
+fun performOperation(num1: Double, num2: Double, operation: Char): Double? {
+    return when (operation) {
+        '+' -> num1 + num2
+        '-' -> num1 - num2
+        '*' -> num1 * num2
+        '/' -> num1 / num2
+        else -> null
+    }
+}
+
+fun continueCalculation(scanner: Scanner): Boolean {
+    print("Do you want to perform another calculation? (y/n): ")
+    val choice = scanner.next().single()
+    return choice == 'y'
+}
